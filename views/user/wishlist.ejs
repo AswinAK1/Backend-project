@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/wishlist.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <p> <img src="/image/coz/icons/logo-02.png" alt=""></p>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/user/mainPage">Home</a></li>
+                <li><a href="/user/cart">Cart</a></li>
+                <li><a href="/user/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Wishlist Section -->
+    <section class="wishlist">
+        <h1>Your Wishlist</h1>
+        <div class="wishlist-container">
+            <% if (wishlist && wishlist.length > 0) { %>
+                <div class="wishlist-grid">
+                    <% wishlist.forEach(item => { %>
+                        <% if (item.productId) { %>
+                            <div class="wishlist-item">
+                                <img src="<%= item.productId.imageUrl %>" alt="<%= item.productId.productName %>">
+                                <h3><%= item.productId.productName %></h3>
+                                <p class="price">$<%= item.productId.price %></p><br><br>
+                                <div class="wishlist-actions">
+                                    <form action="/user/wishlist/remove/<%= item.productId._id %>" method="POST">
+                                        <button type="submit"><img src="/image/icons/trash-alt-solid-24.png" alt=""></button>
+                                    </form>
+                                    <form action="/user/addToCart/<%= item.productId._id %>" method="POST">
+                                        <button type="/submit"><img src="/image/icons/cart-solid-24.png" alt=""></button>
+                                    </form>
+                                    <form action="/user/productDetails/<%= item.productId._id %>" method="GET">
+                                        <button type="submit"><img src="/image/icons/low-vision-solid-24.png" alt=""></button>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <div class="wishlist-item">
+                                <p>Invalid product. It may have been removed or is no longer available.</p>
+                            </div>
+                        <% } %>
+                    <% }); %>
+                    
+                </div>
+            <% } else { %>
+                <p>Your wishlist is empty. <a href="/user/mainPage">Start Adding Products</a></p>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 E-Commerce. All rights reserved.</p>
+    </footer>
+</body>
+</html>

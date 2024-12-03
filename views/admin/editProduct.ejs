@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create New Product</title>
+<link rel="stylesheet" href="/css/createProduct.css">
+</head>
+<body>
+    <div class="container">
+    <h1>Update Product details</h1>
+    <form action="/admin/updateProduct/<%= product._id %>" method="POST" enctype="multipart/form-data">        <div class="form-group">
+        <label for="name">Product Name</label>
+        <input type="text" id="name" name="productName" value="<%=product.productName%>" required>
+        </div>
+
+        <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" value="<%=product.description%>" required></input>
+        </div>
+
+        <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price" step="0.01" value="<%=product.price%>" required>
+        </div>
+        <div>
+            <label for="category">Category:</label>
+            <select name="category" id="category">
+              <% categories.forEach(category => { %>
+                <option value="<%= category._id %>"><%= category.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        
+          <div>
+            <label for="subcategory">Subcategory:</label>
+            <select name="subcategory" id="subcategory">
+              <% categories.forEach(category => { %>
+                <% category.subcategories.forEach(subcategory => { %>
+                  <option value="<%= subcategory._id %>" data-category="<%= category._id %>"><%= subcategory.name %></option>
+                <% }) %>
+              <% }) %>
+            </select>
+          </div>
+
+        <div class="form-group">
+        <label for="stock">Stock</label>
+        <input type="number" id="stock" name="stock" value="<%=product.stock%>" required>
+
+        </div>
+
+        <div class="form-group">
+            <label for="image">Product Image</label>
+            <input type="file" id="image" name="imageUrl" accept="image/*">
+            <% if (product.imageUrl) { %>
+                <p>Current Image: <img src="<%= product.imageUrl %>" alt="Product Image" style="max-width: 100px;"></p>
+            <% } %>
+        </div>
+
+    <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>
+

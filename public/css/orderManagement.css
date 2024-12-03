@@ -1,0 +1,186 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+  background-color: #dddddd;
+  color: #333;
+}
+
+/* Header Styling */
+header {
+  background-color: #dddddd;
+  color: black;
+  padding: 1rem;
+  text-align: center;
+}
+
+.top-right {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.button {
+  color: black;
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #dddddd;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #ffffff;
+}
+
+/* Main Content Styling */
+main {
+  padding: 2rem;
+}
+
+/* Order Gallery Styling */
+.order-gallery {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order-item {
+  background-color: #ecf0f1;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.order-details {
+  margin-bottom: 1rem;
+}
+
+.order-details p {
+  margin: 0.5rem 0;
+}
+
+.order-item .edit-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.order-item .edit-button:hover {
+  background-color: #004a99;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status.pending {
+  color: orange;
+}
+
+.status.confirmed {
+  color: green;
+}
+
+.status.shipped {
+  color: blue;
+}
+
+.status.delivered {
+  color: darkgreen;
+}
+
+.status.cancelled {
+  color: red;
+}
+.button-container {
+  display: flex;
+  gap: 0.5rem; /* Space between the buttons */
+}
+
+.button-container form {
+  margin: 0; /* Remove any default margins around the forms */
+}
+
+
+.filter-section {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  background-color: #dddddd;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.filter-section label {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.filter-section select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  background-color: white;
+}
+.filter-section {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  background-color: #dddddd;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.filter-section label {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.filter-section select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-item {
+    padding: 1rem;
+  }
+}

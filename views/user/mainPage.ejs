@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/mainPage.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+        <p><img src="/image/coz/icons/logo-02.png" alt=""></p>
+        </div>
+        <nav>
+        <ul class="nav-links">
+            <li>
+                <a href="/user/cart" class="cart-link">
+                    Cart
+                    <% if (typeof totalProducts !== 'undefined' && totalProducts > 0) { %>
+                        <span class="cart-quantity"><%= totalProducts %></span>
+                    <% } %>
+                </a>
+            </li>
+            <li>
+                <a href="/user/wishlist" class="cart-link">
+                    Wishlist
+                    <% if (typeof totalWishlistProduct !== "undefined" && totalWishlistProduct > 0) { %>
+                        <span class="cart-quantity"><%= totalWishlistProduct %></span>
+                    <% } %>
+                </a>
+            </li>
+            
+            <!-- <li><a href="/user/wishlist">Wishlist</a></li> -->
+            <li><a href="/user/shop">Shop</a></li>
+            <li><a href="/user/orderSummary">Orders</a></a></li>
+            <li>
+                <% if (user) { %>
+                    <a href="/user/profile" class="user-name">
+                        <%= user.fullName %>
+                    </a>
+                <% } else { %>
+                    <a href="/user/login" class="login-link">Login</a>
+                <% } %>
+            </li>
+        </ul>
+        </nav>
+    </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <img class="img" src="/image/coz/slide-02.jpg" alt="banner" >
+        <!-- <h1>Welcome to Our Shop</h1>
+        <p>Discover amazing deals and the latest products!</p>  -->
+    </section>
+
+<!-- Categories Section -->
+<section class="categories">
+    <h2>Shop by Category</h2>
+    <div class="category-wrapper">
+        <button class="nav-btn left" onclick="scrollLeft()">&#8592;</button>
+        <div class="category-view">
+            <div class="category-grid">
+                <% categories.forEach(category => { %>
+                    <div class="category-item">
+                        <!-- Clicking the button triggers category filter -->
+                        <a href="/user/category/<%= category._id %>">
+                            <p><%= category.name %></p>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+        <button class="nav-btn right" onclick="scrollRight()">&#8594;</button>
+    </div>
+</section>
+
+    
+
+
+<!-- Product Grid -->
+<section class="products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+        <% if (products.length === 0) { %>
+            <div class="no-products">
+                <p>No products found in this category.</p>
+            </div>
+        <% } else { %>
+            <% products.forEach(product => { %>
+                <div class="product-item">
+                    <img src="<%= product.imageUrl %>" alt="<%= product.productName %>">
+                    <h3><%= product.productName %></h3>
+                    <p class="price">$<%= product.price %></p><br><br>
+
+                    <div class="product-actions">
+                        <form action="/user/addToCart/<%= product.id %>" method="POST">
+                            <button type="submit"><img src="/image/icons/cart-solid-24.png" alt=""></button>
+                        </form>
+                        <form action="/user/viewWishlist/<%= product.id %>" method="POST">
+                            <button type="submit"><img src="/image/icons/heart-solid-24.png" alt=""></button>
+                        </form>
+                        <form action="/user/productDetails/<%= product.id %>" method="GET">
+                            <button type="submit"><img src="/image/icons/low-vision-solid-24.png" alt=""></button>
+                        </form>
+                        
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+</section>
+
+    
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 E-Commerce. All rights reserved.</p>
+    </footer>
+    <script>
+
+let currentIndex = 0; // Tracks the starting index of visible items
+const itemsToShow = 4; // Number of visible categories at a time
+
+function scrollLeft() {
+    const categoryGrid = document.querySelector('.category-grid');
+    const totalItems = categoryGrid.children.length;
+
+    // Ensure we don't go out of bounds
+    if (currentIndex > 0) {
+        currentIndex -=1; // Decrement index to move left
+        const translateXValue = -(currentIndex * (100 / itemsToShow)); // Calculate the new transform value
+        categoryGrid.style.transform = `translateX(${translateXValue}%)`;
+    }
+}
+
+function scrollRight() {
+    const categoryGrid = document.querySelector('.category-grid');
+    const totalItems = categoryGrid.children.length;
+
+    // Ensure we don't go out of bounds
+    if (currentIndex + itemsToShow < totalItems) {
+        currentIndex += 1; // Increment index to move right
+        const translateXValue = -(currentIndex * (100 / itemsToShow)); // Calculate the new transform value
+        categoryGrid.style.transform = `translateX(${translateXValue}%)`;
+    }
+}
+
+    // Dropdown toggle for filter
+    document.querySelector('.filter-btn').addEventListener('click', function () {
+        const filterForm = document.querySelector('.filter-form');
+        filterForm.classList.toggle('hidden');
+    });
+</script>
+
+</body>
+</html>

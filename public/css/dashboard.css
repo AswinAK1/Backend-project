@@ -1,0 +1,144 @@
+/* dashboard.css */
+
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+  background-color: #dddddd;
+  color: #000000;
+}
+
+/* Header Styling */
+header {
+  background-color:  #dddddd;
+  color: black;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+}
+
+h1 {
+  background-color:  #dddddd;
+  margin-bottom: 10px;
+  color: black;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+}
+
+.top-right {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  /* position: absolute;
+  top: 1rem;
+  right: 1rem; */
+}
+
+.button {
+  color: #000000;
+  padding: 0.5rem 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #ffffff;
+}
+
+/* Main Content Styling */
+main {
+  padding: 2rem;
+}
+
+.product-index{
+  background-color: #dddddd;
+}
+.product-gallery{
+  background-color: #dddddd;
+}
+.product-gallery h2 {
+  font-size: 1.8rem;
+  color: #000000;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Product Grid Styling */
+.product-list {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 2rem;
+  padding-top: 1rem;
+}
+
+/* Individual Product Item Styling */
+.product-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.product-item img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.product-item h3 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.product-item .price {
+  font-size: 1.1rem;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.product-item .description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+/* Buttons for Product Actions */
+.product-item button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.5rem;
+  margin-right: 0.3rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  width: 250px;
+  transition: background-color 0.3s;
+}
+
+.product-item button:hover {
+  background-color: #004a99;
+}
+
+.out-of-stock {
+  color: red;
+  font-weight: bold;
+}
+

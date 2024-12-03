@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Order</title>
+  <link rel="stylesheet" href="/css/editingOrder.css">
+</head>
+<body><br>
+  <!-- Navbar -->
+  <header>
+    <div class="navbar">
+      <a href="/admin/adminDash" class="button">Admin Dashboard</a>
+      <a href="/admin/logout" class="button">Logout</a>
+    </div>
+  </header><br>
+
+  <!-- Main Content -->
+  <main>
+    <section class="edit-order-form">
+      <h1>Edit Order</h1>
+      <form action="/admin/updateOrder/<%= order._id %>" method="POST">
+        <!-- Order Details -->
+        <div class="form-group">
+          <label for="orderId">Order ID:</label>
+          <input type="text" id="orderId" value="<%= order._id %>" disabled>
+        </div>
+        <div class="form-group">
+          <label for="userName">User Name:</label>
+          <input type="text" id="userName" value="<%= order.userId.fullName %>" disabled>
+        </div>
+        <div class="form-group">
+          <label for="totalPrice">Total Price:</label>
+          <input type="text" id="totalPrice" value="$<%= order.totalPrice %>" disabled>
+        </div>
+
+        <!-- Order Status -->
+        <div class="form-group">
+          <label for="orderStatus">Order Status:</label>
+          <select id="orderStatus" name="orderStatus" required>
+            <option value="Pending" <%= order.orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
+            <option value="Confirmed" <%= order.orderStatus === 'Confirmed' ? 'selected' : '' %>>Confirmed</option>
+            <option value="Shipped" <%= order.orderStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+            <option value="Delivered" <%= order.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+            <option value="Cancelled" <%= order.orderStatus === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+          </select>
+        </div>
+
+        <!-- Payment Status -->
+        <div class="form-group">
+          <label for="paymentStatus">Payment Received:</label>
+          <select id="paymentStatus" name="paymentReceived" required>
+            <option value="Yes" <%= order.paymentReceived === 'Yes' ? 'selected' : '' %>>Yes</option>
+            <option value="No" <%= order.paymentReceived === 'No' ? 'selected' : '' %>>No</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-button">Update Order</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

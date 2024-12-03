@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="/css/styleLogin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Forgot Password</h2>
+            <form action="/user/enterOtp" method="POST">
+                <div class="input-group">
+                    <label for="otp">Enter OTP:</label>
+                    <input type="otp" id="otp" name="user_otp" required>
+                </div>
+                <div class="input-group">
+                    <input class="button" type="submit">
+                </div>
+                <p><a href="/user/login">Back to Login</a></p>
+            </form>
+        </div>
+    </div>

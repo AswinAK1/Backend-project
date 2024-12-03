@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/productDetails.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="/image/coz/icons/logo-02.png" alt="Logo">
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/user/mainPage">Home</a></li>
+                <li><a href="/user/cart">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Product Details Section -->
+    <section class="product-details">
+        <div class="product-wrapper">
+            <!-- Left Column: Product Image -->
+            <div class="product-image">
+                <img src="<%= product.imageUrl[0] %>" alt="<%= product.productName %>">
+            </div>
+
+            <!-- Right Column: Product Info -->
+            <div class="product-info">
+                <h1><%= product.productName %></h1>
+                <p class="price">Price: $<%= product.price %></p>
+                <p class="description"><%= product.description %></p>
+                <p class="category">Category: <%= product.category.name %></p>
+                <% if (product.stock < 5) { %>
+                    <p class="stock" style="color: red;">Stock: <%= product.stock %></p>
+                <% } else { %>
+                    <p class="stock" style="color: green;">Stock: <%= product.stock %></p>
+                <% } %>
+
+                <!-- Action Buttons -->
+                <div class="product-actions">
+                    <form action="/user/addToCart/<%= product.id %>" method="POST">
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                    <form action="/user/viewWishlist/<%= product.id %>" method="POST">
+                        <button type="submit">Add to Wishlist</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="product-reviews">
+            <h2>Reviews</h2>
+            <div class="reviews-list">
+                <% if (product.rating.length === 0) { %>
+                    <p>No reviews yet. Be the first to review!</p>
+                <% } else { %>
+                    <% product.rating.forEach((review) => { %>
+                        <div class="review">
+                            <p><strong><%= review.userId?.fullName || 'Anonymous' %></strong>:</p>
+                            <p>Rating: <%= review.ratingValue %>/5</p>
+                            <p><%= review.comment %></p>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+            <form action="/user/addReview" method="POST" class="review-form">
+                <input type="hidden" name="productId" value="<%= product._id %>">
+                <label for="rating">Rating:</label>
+                <select name="ratingValue" id="rating" required>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Good</option>
+                    <option value="3">3 - Average</option>
+                    <option value="2">2  - Poor</option>
+                    <option value="1">1 - Terrible</option>
+                </select>
+                <label for="comment">Comment:</label>
+                <textarea name="comment" id="comment" rows="4"></textarea>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

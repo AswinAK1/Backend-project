@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/mainPage.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <p> <img src="/image/coz/icons/logo-02.png" alt=""></p>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/user/mainPage">Home</a></li>
+                <li><a href="/user/cart">Cart</a></li>
+                <li><a href="/user/wishlist">Wishlist</a></li>
+                <li><a href="/filter" class="filter-btn">Filter</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- filter section -->
+    <section class="filter-section">
+        <h2>Filter Products</h2>
+        <form action="/user/filter" method="GET" class="filter-form hidden">
+            <div class="filter-option">
+                <label for="category">Category:</label>
+                <select name="category" id="category">
+                    <option value="">All Categories</option>
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category.id %>"><%= category.name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="filter-option">
+                <label for="price">Price Range:</label>
+                <input type="number" name="minPrice" placeholder="Min Price" min="0">
+                <input type="number" name="maxPrice" placeholder="Max Price" min="0">
+            </div>
+            <div class="filter-option">
+                <form action="/user/filter" method="GET" class="filter-form hidden">
+                    <button >Apply Filter</button>
+
+                </form>
+            </div>
+        </form>
+    </section>
+
+
+<!-- Product Grid -->
+<section class="products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+        <% if (products.length === 0) { %>
+            <div class="no-products">
+                <p>No products found in this category.</p>
+            </div>
+        <% } else { %>
+            <% products.forEach(product => { %>
+                <div class="product-item">
+                    <img src="<%= product.imageUrl %>" alt="<%= product.productName %>">
+                    <h3><%= product.productName %></h3>
+                    <p class="price">$<%= product.price %></p><br><br>
+
+                    <div class="product-actions">
+                        <form action="/user/addToCart/<%= product.id %>" method="POST">
+                            <button type="submit"><img src="/image/icons/cart-solid-24.png" alt=""></button>
+                        </form>
+                        <form action="/user/viewWishlist/<%= product.id %>" method="POST">
+                            <button type="submit"><img src="/image/icons/heart-solid-24.png" alt=""></button>
+                        </form>
+                        <form action="/user/productDetails/<%= product.id %>" method="GET">
+                            <button type="submit"><img src="/image/icons/low-vision-solid-24.png" alt=""></button>
+                        </form>
+                        
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 E-Commerce. All rights reserved.</p>
+    </footer>
+    <script>
+    // Dropdown toggle for filter
+    document.querySelector('.filter-btn').addEventListener('click', function () {
+        const filterForm = document.querySelector('.filter-form');
+        filterForm.classList.toggle('hidden');
+    });
+</script>
+
+</body>
+</html>

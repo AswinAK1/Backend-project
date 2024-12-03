@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Management</title>
+  <link rel="stylesheet" href="/css/getCategory.css">
+</head>
+<body>
+  <header><br>
+    <div class="top-right">
+      <a href="/admin/adminDash" class="button">Admin Dashboard</a>
+      <a href="/admin/createCategory" class="button">Create New Category</a>
+      <a href="/admin/addSubcategory" class="button">Add subcategories</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Category Management</h1><br><br>
+    <div class="category-list">
+      <% categories.forEach(category => { %>
+        <div class="category-card">
+          <div class="category-header">
+            <!-- Category Name on the Left -->
+            <h2><%= category.name %></h2>
+            
+            <!-- View Subcategories Button on the Right -->
+            <button class="toggle-btn" onclick="toggleSubcategories('<%= category._id %>')">View Subcategories</button>
+          </div>
+          <h6><%= category.description %></h6>
+
+          <!-- Subcategory Dropdown -->
+          <div id="subcategories-<%= category._id %>" class="subcategory-list" style="display: none;">
+            <% if (category.subcategories && category.subcategories.length > 0) { %>
+              <h4>Subcategories:</h4>
+              <% category.subcategories.forEach(subcategory => { %>
+                <div class="subcategory-item">
+                  <span><%= subcategory.name %></span>
+                  <div class="subcategory-actions">
+                    <a href="/admin/editSubcategory/<%= subcategory._id %>">
+                      <button type="button">Edit</button>
+                    </a>
+                    <form action="/admin/deleteSubcategory/<%= subcategory._id %>" method="POST" style="display: inline;">
+                      <button type="submit">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p>No subcategories available.</p>
+            <% } %>
+          </div>
+
+          <!-- Edit and Delete Category Buttons on the Right -->
+          <div class="button-group-right">
+            <a href="/admin/editCategory/<%= category._id %>">
+              <button type="button">Edit Category</button>
+            </a>
+            <form action="/admin/deleteCategory/<%= category._id %>" method="POST">
+              <button type="submit">Delete Category</button>
+            </form>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <script>
+    function toggleSubcategories(id) {
+      const subcategoryList = document.getElementById('subcategories-' + id);
+      subcategoryList.style.display = subcategoryList.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

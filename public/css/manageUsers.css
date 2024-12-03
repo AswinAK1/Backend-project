@@ -1,0 +1,170 @@
+/* public/styles/userList.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header {
+  background-color: #dddddd;
+  color: black;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 15px; /* Add slight padding to prevent elements from touching the edges */
+}
+.top-right {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  /* position: absolute;
+  top: 1rem;
+  right: 1rem; */
+}
+
+.button {
+  color: #000000;
+  padding: 0.5rem 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px; /* Set max-width to prevent overflow on large screens */
+  background: #dddddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin: 20px 0; /* Ensures a little space from the top and bottom */
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #000000;
+  font-size: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+thead {
+  background-color: #000000;
+  color: #dddddd;
+}
+
+thead th, tbody td {
+  padding: 15px;
+  text-align: left;
+}
+
+thead th {
+  text-align: center;
+}
+
+tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.active {
+  color: green;
+  font-weight: bold;
+}
+
+.blocked {
+  color: red;
+  font-weight: bold;
+}
+
+.btn {
+  padding: 8px 15px;
+  font-size: 14px;
+  color: #dddddd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+}
+
+.btn.block {
+  background-color: #d9534f;
+}
+
+.btn.unblock {
+  background-color: #5cb85c;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+      padding: 10px; /* Ensure padding on small screens */
+  }
+
+  .container {
+      width: 100%;
+      padding: 15px;
+      box-sizing: border-box;
+  }
+
+  table, thead, tbody, th, td, tr {
+      display: block;
+  }
+
+  thead {
+      display: none;
+  }
+
+  tr {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+  }
+
+  td {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 5px;
+  }
+
+  td:before {
+      content: attr(data-label);
+      font-weight: bold;
+      color: #333;
+      text-transform: uppercase;
+      flex-basis: 40%;
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/styleLogin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form action="/user/login" method="POST" onsubmit="return validateLogin()" >
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" >
+                    <div id="email-err" style="display: none; color: red; font-size: 2px;"></div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" >
+                    <div id="pass-err" style="display: none; color: red; font-size: 2px;"></div>
+                </div>
+                <div class="input-group">
+                    <button type="submit">Login</button>
+                </div>
+                <p class="err"><%=err%></p>
+                <p><a href="/user/forgotpassword">Forgot password?</a></p>
+                <p>Don't have an account? <a href="/user/signup">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+    <script>
+        function validateLogin(){
+            const email = document.getElementById('email').value
+            const emailErr = document.getElementById('email-err')
+            const password = document.getElementById('password').value
+            const passErr = document.getElementById('pass-err')
+
+            let errArray = []
+
+            if(!email){
+                errArray.push('Email required')
+            }
+            if(!password){
+                errArray.push('Password required')
+            }
+            if(errArray.length>0){
+                if(errArray.includes('Email required')){
+                    emailErr.innerText = 'Email required'
+                    emailErr.style.display='block'
+                setTimeout(()=>{
+                    emailErr.innerText = ''
+                    emailErr.style.display='none'
+                },3000)
+                }
+                if(errArray.includes('Password required')){
+                    passErr.innerText = 'Password required'
+                    passErr.style.display = 'block'
+                    setTimeout(()=>{
+                        passErr.innerText = ''
+                        passErr.style.display= 'none'
+                    },3000)
+                }
+                return false
+            }
+            return true
+        }
+    </script>
+</body>
+</html>

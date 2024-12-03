@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="/css/styleLogin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Sign Up</h2>
+            <form id="signupForm" action="/user/signup" method="POST" onsubmit="return validateForm()" novalidate>
+                <div class="input-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="fullName">
+                    <div id="name-err" class="error-message"></div>
+                </div>
+                <div class="input-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="number" id="phone" name="phoneNumber">
+                    <div id="phNum-err" class="error-message"></div>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                    <div id="email-err" class="error-message"></div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password">
+                    <div id="pass-err" class="error-message"></div>
+                </div>
+                <div class="input-group">
+                    <button type="submit">Sign Up</button>
+                </div>
+                <p class="err"><%= err %></p>
+                <p>Already have an account? <a href="/user/login">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            const nameErr = document.getElementById('name-err');
+            const phoneErr = document.getElementById('phNum-err');
+            const emailErr = document.getElementById('email-err');
+            const passErr = document.getElementById('pass-err');
+
+            let isValid = true;
+
+            // Clear previous error messages
+            nameErr.textContent = '';
+            phoneErr.textContent = '';
+            emailErr.textContent = '';
+            passErr.textContent = '';
+
+            // Name validation
+            if (!name) {
+                nameErr.textContent = 'Name is required.';
+                isValid = false;
+            }
+
+            // Phone validation
+            if (!phone) {
+                phoneErr.textContent = 'Phone number is required.';
+                isValid = false;
+            } else if (phone.length < 10) {
+                phoneErr.textContent = 'Phone number must be at least 10 digits.';
+                isValid = false;
+            }
+
+            // Email validation
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!email) {
+                emailErr.textContent = 'Email is required.';
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                emailErr.textContent = 'Invalid email format.';
+                isValid = false;
+            }
+
+            // Password validation
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+            if (!password) {
+                passErr.textContent = 'Password is required.';
+                isValid = false;
+            } else if (!passwordRegex.test(password)) {
+                passErr.textContent = 'Password must be at least 8 characters, include uppercase, lowercase, a number, and a symbol.';
+                isValid = false;
+            }
+
+            // Prevent form submission if any validation fails
+            return isValid;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #dddddd;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.top-right {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  /* position: absolute;
+  top: 1rem;
+  right: 1rem; */
+}
+
+.button {
+  color: #000000;
+  padding: 0.5rem 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #ffffff;
+}
+
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.category-card {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-card h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+  flex-grow: 1;  /* Ensures category name takes up the remaining space */
+}
+
+.category-card h6 {
+  margin: 0;
+  color: #666;
+}
+
+.toggle-btn {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-group-right {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;  /* Align buttons to the right */
+  margin-top: 10px;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.subcategory-list {
+  margin-top: 10px;
+  padding-left: 15px;
+}
+
+.subcategory-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.subcategory-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.top-right {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}

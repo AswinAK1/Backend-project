@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management</title>
+    <link rel="stylesheet" href="/css/orderManagement.css">
+</head>
+<body>
+    <!-- Navbar / Header -->
+    <header>
+        <div class="top-right">
+            <a href="/admin/adminDash" class="button">Admin Dashboard</a>
+            <a href="/admin/allProduct" class="button">View Products</a>
+            <a href="/admin/report" class="button">Report</a>
+
+
+        </div>
+    </header>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <form action="/admin/orderManagement" method="GET">
+            <label for="orderStatus">Filter by Status:</label>
+            <select name="orderStatus" id="orderStatus" onchange="this.form.submit()">
+                <option value="" <%= !orderStatus ? 'selected' : '' %>>All</option>
+                <option value="Pending" <%= orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
+                <option value="Confirmed" <%= orderStatus === 'Confirmed' ? 'selected' : '' %>>Confirmed</option>
+                <option value="Shipped" <%= orderStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                <option value="Delivered" <%= orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                <option value="Cancelled" <%= orderStatus === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+            </select>
+            <label for="paymentMethod">Payment Method</label>
+            <select name="paymentMethod" id="orderStatus" onchange="this.form.submit()">
+                <option value="" <%= paymentMethod ? 'selected' :''%>>All</option>
+                <option value="COD" <%= paymentMethod === 'COD' ? 'selected' : '' %>> Cash on delivery </option>
+                <option value="Net-Banking" <%= paymentMethod === 'Net-Banking'? 'selected' : ' '%>> Net Banking</option>
+            </select>
+            <label for="categories">Category</label>
+            <select name="category" id="category" onchange="this.form.submit()">
+                <option value="" <%= !selectedCategory ? 'selected' : '' %>>All Categories</option>
+                <% categories.forEach(category => { %>
+                    <option value="<%= category._id %>" <%= selectedCategory === String(category._id) ? 'selected' : '' %>>
+                        <%= category.name %>
+                    </option>
+                <% }) %>
+            </select>
+            
+            
+        </form>
+    </section>
+
+    <!-- Main Content: Order List -->
+    <main>
+        <section class="order-gallery">
+            <h1>Order Management</h1>
+            <div class="order-list">
+                <% if (orders && orders.length > 0) { %>
+                    <% orders.forEach(order => { %>
+                        <div class="order-item">
+                            <div class="order-details">
+                                <p><strong>Order ID:</strong> <%= order._id %></p>
+                                <p><strong>User:</strong> <%= order.userId.fullName %></p>
+                                <p><strong>Category:</strong> 
+                                    <% if (order.products && order.products.length > 0) { %>
+                                        <% 
+                                        // Get unique category names for products in this order
+                                        const categories = [...new Set(order.products.map(p => p.productId && p.productId.category ? p.productId.category.name : 'N/A'))]; 
+                                        %>
+                                        <%= categories.join(', ') %> <!-- Display unique category names as a comma-separated list -->
+                                    <% } else { %>
+                                        N/A
+                                    <% } %>
+                                </p>
+                                
+                                
+                                <p><strong>Address:</strong>
+                                    <%= order.address ? order.address.addressLine : 'No address provided' %>, 
+                                    <%= order.address ? order.address.city : '' %>, 
+                                    <%= order.address ? order.address.state : '' %>, 
+                                    <%= order.address ? order.address.pinCode : '' %>
+                                </p>
+                                <p><strong>Total Price:</strong> $<%= order.totalPrice %></p>
+                                <p><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+                                <p class="status <%= order.orderStatus.toLowerCase() %>">
+                                    <strong>Status:</strong> <%= order.orderStatus %>
+                                </p>
+                            </div>
+                            <div class="button-container">
+                                <form action="/admin/editOrder/<%= order._id %>" method="GET">
+                                    <button type="submit" class="edit-button">Edit</button>
+                                </form>
+                                <form action="/admin/orderDetailsAdmin/<%= order._id %>" method="GET">
+                                    <button type="submit" class="edit-button">Order Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No orders available for the selected filters.</p>
+                <% } %>
+                
+            </div>
+        </section>
+    </main>
+</body>
+</html>

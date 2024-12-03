@@ -1,0 +1,89 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #dddddd;
+  color: #333;
+}
+
+/* Navbar Styles */
+header {
+  background-color:  #dddddd;
+  color: black;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+}
+.navbar .button {
+  color: #000000;
+  padding: 0.5rem 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+}
+.navbar .button:hover {
+  background-color: #ffffff;
+}
+
+/* Main Section */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding: 20px;
+}
+
+/* Form Styles */
+.edit-order-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+.edit-order-form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: black;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.form-group select {
+  appearance: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.submit-button:hover {
+  background-color: #004a99;
+}

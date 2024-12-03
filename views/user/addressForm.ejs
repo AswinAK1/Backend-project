@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Form</title>
+    <!-- Link CSS dynamically -->
+    <link rel="stylesheet" href="/css/addressForm.css">
+</head>
+<body>
+    <div class="address-container">
+        <h1>Shipping Address</h1>
+        <!-- Use EJS for form -->
+        <form action="/user/addressForm/" method="POST" class="address-form">
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="addressLine">Address Line:</label>
+                <input type="text" id="addressLine" name="addressLine" placeholder="Street address, P.O. box, company name, etc." required>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" placeholder="Enter your city" required>
+            </div>
+
+            <div class="form-group">
+                <label for="state">State/Province/Region:</label>
+                <input type="text" id="state" name="state" placeholder="Enter your state" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pinCode">Postal Code:</label>
+                <input type="text" id="pinCode" name="pinCode" placeholder="Enter your postal code" required>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="">Select your country</option>
+                    <!-- Use EJS to populate country options dynamically -->
+                    <option value="USA" <%= country === 'USA' ? 'selected' : '' %>>United States</option>
+                    <option value="Canada" <%= country === 'Canada' ? 'selected' : '' %>>Canada</option>
+                    <option value="UK" <%= country === 'UK' ? 'selected' : '' %>>United Kingdom</option>
+                    <option value="India" <%= country === 'India' ? 'selected' : '' %>>India</option>
+                    <option value="Australia" <%= country === 'Australia' ? 'selected' : '' %>>Australia</option>
+                </select>
+            </div>
+
+            <!-- Correct placement of the submit button -->
+            <button type="submit" class="submit-btn">Save Address</button>
+        </form>
+    </div>
+</body>
+</html>

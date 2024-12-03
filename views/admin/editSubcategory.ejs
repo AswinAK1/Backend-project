@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/subcategory.css" />
+  <title>Update Subcategory</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Update Subcategory</h1>
+    <form action="/admin/updateSubcategory/<%= subcategory._id %>" method="POST">
+      <!-- Prefill the subcategory name -->
+      <label for="name">Subcategory Name:</label>
+      <input type="text" id="name" name="name" value="<%= subcategory.name %>" required />
+
+      <label for="category">Category:</label>
+      <select name="category" id="categorySelect">
+        <% categories.forEach(category => { %>
+          <!-- Set the current category as selected -->
+          <option value="<%= category._id %>" <%= category._id.equals(subcategory.category) ? 'selected' : '' %>>
+            <%= category.name %>
+          </option>
+        <% }) %>
+      </select>
+      
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

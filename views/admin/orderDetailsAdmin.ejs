@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="/css/orderDetails.css">
+</head>
+<body>
+    <div class="order-details-container">
+        <h1>Order Details</h1>
+
+        <% if (order) { %>
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <p><strong>Order ID:</strong> <%= order._id %></p>
+                <p><strong>Order Date:</strong> <%= new Date(order.createdAt).toLocaleDateString() %></p>
+                <p><strong>Status:</strong> <%= order.orderStatus %></p>
+                <ul>
+                <% if (order) { %>
+                    <p>Order ID: <%= order._id %></p>
+                    <p>Order Date: <%= order.createdAt.toDateString() %></p>
+                    <h2>Products:</h2>
+                    <ul>
+                        <% order.products.forEach(product => { %>
+                            <li class="product-item">
+                                <img src="<%= product.productId.imageUrl %>" alt="<%= product.productId.productName %>">
+                                <div class="product-info">
+                                    <h3><%= product.productId.productName %></h3>
+                                    <p><strong>Quantity:</strong> <%= product.quantity %></p>
+                                    <p><strong>Category:</strong> <%= product.productId.category.name %></p>
+                                    <p><strong>Price:</strong> $<%= product.price %></p>
+                                    <p><strong>Total:</strong> $<%= (product.price * product.quantity).toFixed(2) %></p>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                    
+                    
+                <% } else { %>
+                    <p>No order details available.</p>
+                <% } %>
+                </ul>
+                <div class="total">
+                    <span>Total Price:</span>
+                    <span>$<%= order.totalPrice %></span>
+                </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="shipping-details">
+                <h2>Shipping Address</h2>
+                <% if (order.address) { %>
+                    <p><strong>Full Name:</strong> <%= order.address.fullName %></p>
+                    <p><strong>Phone:</strong> <%= order.address.phoneNumber %></p>
+                    <p><strong>Address:</strong> <%= order.address.addressLine %>, <%= order.address.city %>, <%= order.address.state %>, <%= order.address.pinCode %></p>
+                    <p><strong>Country:</strong> <%= order.address.country %></p>
+                <% } else { %>
+                    <p>No shipping address available.</p>
+                <% } %>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="payment-details">
+                <h2>Payment Details</h2>
+                <p><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+            </div>
+        <% } else { %>
+            <p>No order details found.</p>
+        <% } %>
+    <a href="/user/mainPage" class="home-button">Go to Homepage</a>
+
+    </div>
+</body>
+</html>

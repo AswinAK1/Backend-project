@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+
+        <!-- Order Summary Section -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <% if (Array.isArray(products) && products.length > 0) { %>
+                <ul>
+                    <% products.forEach(product => { %>
+                        <li>
+                            <span><%= product.productId.productName || 'Unknown Product' %></span>
+                            <span>₹<%= product.productId.price || 0 %></span>
+                            <span> x <%= product.quantity %></span>
+                        </li>
+                    <% }) %>
+                </ul>
+                <div class="total">
+                    <span>Total:</span>
+                    <span>$<%= totalPrice %></span>
+                </div>
+            <% } else { %>
+                <p>No products found in the cart.</p>
+            <% } %>
+        </div>
+        
+
+        <!-- Shipping Details Section -->
+        <div class="shipping-details">
+            <h2>Shipping Address</h2>
+            <% if (address) { %>
+                <input type="hidden" name="addressId" value=<%=address._id%>>
+                <p><strong>Full Name:</strong> <%= address.fullName %></p>
+                <p><strong>Phone:</strong> <%= address.phoneNumber %></p>
+                <p><strong>Address:</strong> <%= address.addressLine %>, <%= address.city %>, <%= address.state %>, <%= address.pinCode %></p>
+                <p><strong>Country:</strong> <%= address.country %></p>
+                <a href="/user/editAddress/<%= address._id %>" class="change-address-btn">Change Address</a>
+
+            <% } else { %>
+                <p>No shipping address found. Please add a shipping address.</p>
+                <a href="/user/addressForm/:id<%= productId %>" class="add-address-btn">Add Address</a>
+            <% } %>
+        </div>
+        
+        
+
+        <!-- Payment Options Section -->
+        <div class="payment-options">
+            <h2>Payment Method</h2>
+            <form action="/user/placeOrder" method="POST">
+                <div class="payment-method">
+                    <label>
+                        <input type="radio" name="paymentMethod" value="COD" required> Cash on Delivery (COD)
+                        
+                    </label>
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Net-Banking" required> Net Banking
+                    </label>
+                </div>
+                <button type="submit" class="place-order-btn" id="netBanking">Place Order</button>
+            </form>
+        </div>
+    </div>
+    <script>
+
+        document.getElementById('netBanking').addEventListener('click',async()=>{
+            try{
+                const response = await fetch('/user/stripePayment')
+                const {url} = await response.json()
+                window.location.href=url;
+                console.log(url);
+                
+            }
+            catch(err){
+                console.log(err);
+                
+            }
+        })
+
+    </script>
+</body>
+</html>

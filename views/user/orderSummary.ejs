@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="/css/orderSummary.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a href="/"><img src="/image/coz/icons/logo-02.png" alt="Logo"></a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/user/mainPage">Home</a></li>
+                <li><a href="/user/cart">Cart</a></li>
+                <li><a href="/user/wishlist">Wishlist</a></li>
+                <li><a href="/user/shop">Shop</a></li>
+                <li><a href="/user/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="order-section">
+            <h1>Your Orders</h1>
+            <% if (!orders || orders.length === 0) { %>
+                <p class="no-orders">No orders found. <a href="/user/shop">Start shopping now!</a></p>
+            <% } else { %>
+                <div class="order-list">
+                    <% orders.forEach(order => { %>
+                        <div class="order-card">
+                            <div class="order-header">
+                                <h3>Order ID: <%= order._id %></h3>
+                                <p>Placed on: <%= order.createdAt%></p>
+                            </div>
+                            <div class="order-products">
+                                <% order.products.forEach(product => { %>
+                                    <div class="product-item">
+                                        <img src="<%= product.productId.imageUrl %>" alt="<%= product.productId.productName %>">
+                                        <div>
+                                        <h4><%= product.productId.productName %></h4>
+                                            <p>Quantity: <%= product.quantity %></p>
+                                            <p>Price: $<%= product.price %></p>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+                            <div class="order-footer">
+                                <p>Total: $<%= order.totalPrice %></p>
+                                <p>Status: <span class="status <%= order.orderStatus%>"><%= order.orderStatus %></span></p>
+                                <!-- Buttons for View Details and Cancel Order -->
+                                <div class="order-actions">
+                                    <a href="/user/orderDetails/<%= order._id %>" class="btn view-details">View Details</a>
+
+                                    <form action="/user/cancelOrder/<%= order._id %>" method="post">
+                                      <% if (order.orderStatus === 'Pending') { %>
+                                        <button type="submit" class="btn cancel-order">Cancel Order</button>
+                                    <% } %>
+                                    </form>
+                                    <form action="/user/deleteOrder/<%= order._id %>" method="POST">
+                                      <button type="submit" class="btn cancel-order">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 E-Commerce. All rights reserved.</p>
+    </footer>
+</body>
+</html>

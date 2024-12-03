@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <link rel="stylesheet" href="/css/manageUsers.css">
+</head>
+<body>
+
+  
+  <div class="container">
+    <header>
+      <div class="top-right">
+        <a href="/admin/adminDash" class="button">Admin Dashboard</a>
+        <a href="/admin//manageUser" class="button">User Management</a>
+        <a href="/admin/unblockedUser" class="button">Unblocked Users</a>
+      </div><br><br>
+    </header>
+    <h1>Blocked Users</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.fullName %></td>
+                    <td><%= user.email %></td>
+                    <td class="<%= user.isBlocked ? 'blocked' : 'active' %>">
+                        <%= user.isBlocked ? 'Blocked' : 'Active' %>
+                    </td>
+                    <td>
+                        <form action="/admin//blockedUsersPage/<%= user.id %>" method="POST">
+                            <button type="submit" class="btn <%= user.isBlocked ? 'unblock' : 'block' %>">
+                                <%= user.isBlocked ? 'Unblock' : 'Block' %>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+  </div>
+</body>
+</html>

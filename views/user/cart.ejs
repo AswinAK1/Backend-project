@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/addToCart.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+          <p> <img src="/image/coz/icons/logo-02.png" alt=""></p>
+        </div>
+        <nav>
+            <ul class="nav-links">
+              <li><a href="/user/mainPage">Home</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/user/wishlist">Wishlist</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Cart Section -->
+    <section class="cart">
+        <h1>Your Cart</h1>
+        <div class="cart-container">
+          <% if (cart.length > 0) { %>
+            <% cart.forEach(item => { %>
+              <div class="cart-item">
+                <img src="<%= item.productId.imageUrl %>" alt="<%= item.productId.productName %>">
+                <h2><%= item.productId.productName %></h2>
+                <p>Price: $<%= item.productId.price %></p>
+                <p>Quantity: <span id="quantity-<%= item.productId._id %>"><%= item.quantity %></span></p>
+                <p>Total: $<span id="product-total-<%= item.productId._id %>"><%= item.productTotalPrice %></span></p>
+      
+                <div class="quantity-controls">
+                  <form action="/user/cart/reduce/<%= item.productId._id %>" method="POST">
+                    <button type="submit">-</button>
+                  </form>
+                  <form action="/user/cart/add/<%= item.productId._id %>" method="POST">
+                    <button type="submit">+</button>
+                  </form>
+                </div>
+                <!-- <form action="/user/addressForm/<%= item.productId._id %>" method="get" class="remove-item">
+                  <button type="submit">Buy now</button> -->
+                </form>
+                <form action="/user/cart/remove/<%= item.productId._id %>" method="POST" class="remove-item">
+                  <button type="submit">Remove</button>
+                </form>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>Your cart is empty. <a href="/user/mainPage">Continue Shopping</a></p>
+          <% } %>
+        </div>
+      
+        <div class="cart-summary">
+          <h2>Total Items: <%= totalItems %></h2>
+          <h2>Total Price: $<%= totalPrice %></h2>
+        </div><br><br>
+        <!-- <form action="/user/checkout" method="GET" >
+          <button type="submit" class="buyAll-item">Buy All</button>
+        </form> -->
+        <a href="/user/checkout">
+          <button type="submit" class="buyAll-item">Buy All</button>
+        </a>
+      </section>
+      
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 E-Commerce. All rights reserved.</p>
+    </footer>
+</body>
+</html>

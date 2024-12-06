@@ -1,5 +1,5 @@
 const express = require('express')
-const { logout,createProduct,viewProduct,editProduct,deleteProduct,updateSuccess,updateProduct,blockProduct,blockedProductPage,unblockedProduct,userManagement,blockUser,blockedUsersPage,unblockedUser,getCategory,createCategory,deleteCategory,updateCategory,editCategory,createSubcategory,editSubcategory,updateSubcategory,deleteSubcategory,updateOrder,viewDetails,deleteReview} = require('../controller/adminController')
+const { logout,createProduct,viewProduct,editProduct,deleteProduct,updateSuccess,updateProduct,blockProduct,blockedProductPage,unblockedProduct,userManagement,blockUser,blockedUsersPage,unblockedUser,getCategory,createCategory,deleteCategory,updateCategory,editCategory,createSubcategory,editSubcategory,updateSubcategory,deleteSubcategory,updateOrder,viewDetails,deleteReview,fetchReportData} = require('../controller/adminController')
 const multer = require('multer')
 const router = express.Router()
 const productSchema = require('../models/products')
@@ -224,5 +224,7 @@ router.get('/orderDetailsAdmin/:id',async(req,res)=>{
 router.get('/viewDetails/:id',viewDetails)
 
 router.post('/deleteReview/:id',deleteReview)
+
+router.get('/report',fetchReportData)
 
 module.exports=router

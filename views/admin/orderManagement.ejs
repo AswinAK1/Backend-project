@@ -82,6 +82,7 @@
                                 </p>
                                 <p><strong>Total Price:</strong> $<%= order.totalPrice %></p>
                                 <p><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+                                <p><strong>Payment Status:</strong><%= order.paymentReceived %></p>
                                 <p class="status <%= order.orderStatus.toLowerCase() %>">
                                     <strong>Status:</strong> <%= order.orderStatus %>
                                 </p>

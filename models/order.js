@@ -58,14 +58,16 @@ const orderSchema = new mongoose.Schema({
   },
   paymentReceived:{
     type:String,
-    enum:['yes','No'],
-    default:'No'
+    enum:['Paid','Pending'],
+    default:'Pending'
   },
   createdAt: {
     type: Date,
     default: Date.now
 }
 })
+
+
 
 const Order = mongoose.model('Order',orderSchema);
 module.exports = Order

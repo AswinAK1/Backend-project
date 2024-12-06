@@ -50,17 +50,19 @@
                             <div class="order-footer">
                                 <p>Total: $<%= order.totalPrice %></p>
                                 <p>Status: <span class="status <%= order.orderStatus%>"><%= order.orderStatus %></span></p>
+                                <p>Payment:<span class="status <%= order.paymentReceived%>"><%= order.paymentReceived%></span></p>
+                                
                                 <!-- Buttons for View Details and Cancel Order -->
                                 <div class="order-actions">
                                     <a href="/user/orderDetails/<%= order._id %>" class="btn view-details">View Details</a>
 
                                     <form action="/user/cancelOrder/<%= order._id %>" method="post">
-                                      <% if (order.orderStatus === 'Pending') { %>
+                                        <% if (order.orderStatus === 'Pending') { %>
                                         <button type="submit" class="btn cancel-order">Cancel Order</button>
                                     <% } %>
                                     </form>
                                     <form action="/user/deleteOrder/<%= order._id %>" method="POST">
-                                      <button type="submit" class="btn cancel-order">Delete</button>
+                                        <button type="submit" class="btn cancel-order">Delete</button>
                                     </form>
                                 </div>
                             </div>

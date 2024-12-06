@@ -140,7 +140,6 @@ const changePassword = async (req, res) => {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 const mainPage = async (req, res) => {
   try {
     const products = await productSchema.find({ isBlocked: false });
@@ -148,14 +147,14 @@ const mainPage = async (req, res) => {
 
     let totalProducts = 0;
     let totalWishlistProduct = 0;
-    let user = null; // Initialize a variable to hold the logged-in user's info
+    let user = null;
 
     const userToken = req.cookies.userToken;
     if (userToken) {
       const decode = jwt.verify(userToken, process.env.JWT_SECRET_KEY);
       const userId = decode.userToken._id;
 
-      user = await sampleUsers.findById(userId); // Fetch the logged-in user's details
+      user = await sampleUsers.findById(userId);
 
       const cart = await Cart.findOne({ userId });
       if (cart) {
@@ -168,12 +167,13 @@ const mainPage = async (req, res) => {
       }
     }
 
+    // Always pass `user`, even if it's null
     res.render('user/mainPage', { 
       products, 
       categories, 
       totalProducts, 
       totalWishlistProduct, 
-      user
+      user 
     });
   } catch (err) {
     console.log(err);
@@ -184,11 +184,14 @@ const mainPage = async (req, res) => {
 
 
 
+
 const mainPageFunction = async (req, res) => {
   try {
     const userToken = req.cookies.userToken;
     const decode = jwt.verify(userToken, process.env.JWT_SECRET_KEY);
     const userId = decode.userToken._id;
+
+    const user =  await sampleUsers.findById(userId)
 
     const cart = await Cart.findOne({ userId }).populate('items.productId');
     // const wishlist = await Wishlist.findOne({userId}).populate('items.productId')
@@ -199,7 +202,7 @@ const mainPageFunction = async (req, res) => {
     const products = await productSchema.find({ isBlocked: false });
     const categories = await Category.find();
 
-    res.render('user/mainPage', { products, categories, cartItems: cart ? cart.items : [], totalProducts  });
+    res.render('user/mainPage', { products, categories, cartItems: cart ? cart.items : [], totalProducts , user });
   } catch (err) {
     console.log(err);
     res.render('error', { message: 'Something went wrong' });
@@ -449,13 +452,41 @@ const filterData = async(req,res)=>{
 }
 
 
+const allCategory = async(req,res)=>{
+  try {
+    const userToken = req.cookies.userToken;
+    const user = null;
+    if(userToken){
+      const decode = jwt.verify(userToken,process.env.JWT_SECRET_KEY);
+      const userId = decode.userToken._id;
+      const user = await sampleUsers.findById(userId)
+    }
+    const products = await productSchema.find()
+    const categories = await Category.find();
+  res.render('user/mainPage',{products , user , categories})
+
+  } catch (error) {
+  console.log(error);
+  }
+}
+
+
 const categoryList = async(req,res)=>{
   try{
+    const userToken = req.cookies.userToken;
+    const user = null;
+
+    if(userToken){
+      const decode = jwt.verify(userToken,process.env.JWT_SECRET_KEY);
+      const userId = decode.userToken._id;
+      const user = await sampleUsers.findById(userId)
+    }
+
     const categoryId = req.params.id;
     const products = await productSchema.find({category : categoryId})
     const categories = await Category.find();
 
-    res.render('user/mainPage',{products , categories})
+    res.render('user/mainPage',{products , categories , user})
   }
   catch(err){
     console.log(err);
@@ -701,6 +732,7 @@ const placeOrder = async (req, res) => {
             address: address._id,
             paymentMethod,
             orderStatus: 'Pending',
+            paymentReceived:'Paid'
           });
           await newOrder.save();
           return res.redirect(approvalUrl.href);
@@ -716,6 +748,7 @@ const placeOrder = async (req, res) => {
         address: address._id,
         paymentMethod,
         orderStatus: 'Pending',
+        paymentReceived:'Pending'
       });
 
       await newOrder.save();
@@ -853,41 +886,46 @@ const deleteOrder = async(req,res)=>{
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-const addReview = async (req,res)=>{
+const addReview = async (req, res) => {
   try {
-
     const userToken = req.cookies.userToken;
-    const decode = jwt.verify(userToken,process.env.JWT_SECRET_KEY);
+    const decode = jwt.verify(userToken, process.env.JWT_SECRET_KEY);
     const userId = decode.userToken._id;
 
-    const {productId , ratingValue , comment} = req.body
+    const { productId, ratingValue, comment } = req.body;
 
-    const product = await productSchema.findById(productId)
-    if(!product){
-      res.status(400).send('product not found')
+    // const checkUserOrder = await Order.findOne()
+    // if(!(productId && userId === checkUserOrder)){
+    //   return res.status(400).send('only purchased customer can access the review')
+    // }
+
+    const product = await productSchema.findById(productId);
+    if (!product) {
+      return res.status(400).send('Product not found');
     }
 
-    const existingReview = product.rating.find((review)=> review.userId.toString() === userId.toString());
-    if(existingReview){
-      res.status(400).send('Already review the product')
+    const existingReview = product.rating.find(
+      (review) => review.userId.toString() === userId.toString()
+    );
+
+    if (existingReview) {
+      return res.status(400).send('You have already reviewed this product');
     }
-    
+
     product.rating.push({
       userId,
       ratingValue,
       comment
-    })
-    await product.save()
+    });
 
-    res.redirect(`/user/productDetails/${productId}`)
+    await product.save();
 
+    res.redirect(`/user/productDetails/${productId}`);
   } catch (error) {
-    console.log(error);
-    
+    console.error('Error adding review:', error);
+    res.status(500).send('An error occurred while adding your review');
   }
-
-}
-
+};
 
 
 
@@ -896,4 +934,5 @@ const addReview = async (req,res)=>{
 
 
 
-module.exports = { signupUsers,loginUser,forgotPassword,enterOtp,changePassword,mainPage,mainPageFunction,addToCart,getCart,removeItem,getWishlist,viewWishlist,removeWishlist,filterData,productDetails,categoryList,reduceQuantity,addQuantity,addressForm,updateAddress,getCheckout,placeOrder,confirmOrder,orderDetails,getOrderSummary,cancelOrder,deleteOrder,addReview}
+
+module.exports = { signupUsers,loginUser,forgotPassword,enterOtp,changePassword,mainPage,mainPageFunction,addToCart,getCart,removeItem,getWishlist,viewWishlist,removeWishlist,filterData,productDetails,allCategory,categoryList,reduceQuantity,addQuantity,addressForm,updateAddress,getCheckout,placeOrder,confirmOrder,orderDetails,getOrderSummary,cancelOrder,deleteOrder,addReview}

@@ -400,10 +400,8 @@ const deleteSubcategory = async (req, res) => {
     const deleteId = req.params.id;
     await Subcategory.findByIdAndDelete(deleteId);
 
-    // Fetch the updated list of categories
     const categories = await Category.find().populate('subcategories');
 
-    // Render the category page with the updated categories
     res.render('admin/category', { categories });
   } catch (err) {
     console.log(err);
@@ -464,16 +462,95 @@ const deleteReview = async(req,res)=>{
 
     await product.save()
 
-    res.redirect(`/admin/deleteReview/${product._id}`)
+    res.redirect(`/admin/viewDetails/${product._id}`)
 
   } catch (error) {
     console.log(error);
-    
   }
 }
 
+const fetchReportData = async (req, res) => {
+  try {
+
+    const topSellingPipeline = [
+      { $unwind: "$products" },
+      {
+        $lookup: {
+          from: "productschemas",
+          localField: "products.productId",
+          foreignField: "_id",
+          as: "productDetails",
+        },
+      },
+      { $unwind: "$productDetails" },
+      {
+        $group: {
+          _id: "$products.productId",
+          productName: { $first: "$productDetails.productName" },
+          soldUnits: { $sum: "$products.quantity" },
+          totalSales: { $sum: { $multiply: ["$products.quantity", "$products.price"] } },
+        },
+      },
+      { $sort: { soldUnits: -1 } },
+      { $limit: 5 },
+    ];
+    
+    const topSellingProductsData = await Order.aggregate(topSellingPipeline);
+    
+    const topSellingProducts = topSellingProductsData.map((data) => ({
+      name: data.productName,
+      soldUnits: data.soldUnits,
+      totalSales: data.totalSales,
+    }));
 
 
 
 
-module.exports={logout,createProduct,viewProduct,editProduct,updateProduct,deleteProduct,updateSuccess,blockProduct,blockedProductPage,unblockedProduct,userManagement,blockUser,blockedUsersPage,unblockedUser,getCategory,createCategory,deleteCategory,editCategory,updateCategory,createSubcategory,editSubcategory,updateSubcategory,deleteSubcategory,updateOrder,viewDetails,deleteReview}
+    const monthlyIncomePipeline = [
+      {
+        $group: {
+          _id: {
+            month: { $dateToString: { format: "%B %Y", date: "$createdAt" } },
+          },
+          totalIncome: { $sum: "$totalPrice" },
+        },
+      },
+      {
+        $project: {
+          month: "$_id.month",
+          income: "$totalIncome",
+          _id: 0,
+        },
+      },
+      { $sort: { month: 1 } },
+    ];
+
+    const monthlyIncomeData = await Order.aggregate(monthlyIncomePipeline);
+    const profitGraphData = monthlyIncomeData.map((item) => ({
+      month: item.month,
+      profit: item.income * 0.2,
+    }));
+
+    res.render("admin/report", {
+      topSellingProducts,
+      monthlyIncome: monthlyIncomeData,
+      profitGraphData,
+    });
+  } catch (error) {
+    console.error("Error fetching report data:", error);
+    res.status(500).render("admin/report", {
+      topSellingProducts: [],
+      monthlyIncome: [],
+      profitGraphData: [],
+      error: "Failed to load report data. Please try again later.",
+    });
+  }
+};
+
+
+
+
+
+
+
+module.exports={logout,createProduct,viewProduct,editProduct,updateProduct,deleteProduct,updateSuccess,blockProduct,blockedProductPage,unblockedProduct,userManagement,blockUser,blockedUsersPage,unblockedUser,getCategory,createCategory,deleteCategory,editCategory,updateCategory,createSubcategory,editSubcategory,updateSubcategory,deleteSubcategory,updateOrder,viewDetails,deleteReview,fetchReportData}

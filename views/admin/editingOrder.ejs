@@ -50,8 +50,8 @@
         <div class="form-group">
           <label for="paymentStatus">Payment Received:</label>
           <select id="paymentStatus" name="paymentReceived" required>
-            <option value="Yes" <%= order.paymentReceived === 'Yes' ? 'selected' : '' %>>Yes</option>
-            <option value="No" <%= order.paymentReceived === 'No' ? 'selected' : '' %>>No</option>
+            <option value="Paid" <%= order.paymentReceived === 'Paid' ? 'selected' : '' %>>Paid</option>
+            <option value="Pending" <%= order.paymentReceived === 'Pending' ? 'selected' : '' %>>Pending</option>
           </select>
         </div>
 

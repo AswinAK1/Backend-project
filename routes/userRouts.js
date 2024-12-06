@@ -14,6 +14,7 @@ const {loginUser,
   removeWishlist,
   filterData,
   productDetails,
+  allCategory,
   categoryList,
   reduceQuantity,
   addQuantity,
@@ -107,6 +108,8 @@ router.post('/wishlist/remove/:id',removeWishlist)
 router.get('/filter',filterData)
 
 router.get('/productDetails/:id',productDetails)
+
+router.get('/allCategory',allCategory)
 
 router.get('/category/:id',categoryList)
 

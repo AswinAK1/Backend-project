@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Report</title>
+    <link rel="stylesheet" href="/css/report.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="top-right">
+            <a href="/admin/adminDash" class="button">Admin Dashboard</a>
+            <a href="/admin/orderManagement" class="button">Order Management</a>
+            <a href="/admin/allProduct" class="button">View Products</a>
+        </div>
+        <h1>Admin Reports</h1>
+    </header>
+    <main>
+        <!-- Top-Selling Products -->
+        <section>
+            <h2>Top 5 Selling Products</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Product Name</th>
+                        <th>Sold Units</th>
+                        <th>Total Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (topSellingProducts.length > 0) { %>
+                        <% topSellingProducts.forEach((product, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= product.name %></td>
+                                <td><%= product.soldUnits %></td>
+                                <td>$<%= product.totalSales %></td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr><td colspan="5">No data available.</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Monthly Income -->
+        <section>
+            <h2>Monthly Income</h2>
+            <div>
+                <% if (monthlyIncome.length > 0) { %>
+                    <% monthlyIncome.forEach(item => { %>
+                        <p><%= item.month %>: $<%= item.income.toFixed(2) %></p>
+                    <% }) %>
+                <% } else { %>
+                    <p>No income data available.</p>
+                <% } %>
+            </div>
+        </section>
+
+        <!-- Profit Graph -->
+        <section>
+            <h2>Profit Graph</h2>
+            <canvas id="profitChart"></canvas>
+        </section>
+    </main>
+    <script>
+        const ctx = document.getElementById("profitChart").getContext("2d");
+        const profitData = <%- JSON.stringify(profitGraphData || []) %>;
+
+        if (profitData.length > 0) {
+            const labels = profitData.map(item => item.month);
+            const profits = profitData.map(item => item.profit);
+
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels,
+                    datasets: [{
+                        label: "Monthly Profit",
+                        data: profits,
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                    }]
+                }
+            });
+        }
+    </script>
+</body>
+</html>

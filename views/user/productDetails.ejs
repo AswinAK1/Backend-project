@@ -33,8 +33,8 @@
             <div class="product-info">
                 <h1><%= product.productName %></h1>
                 <p class="price">Price: $<%= product.price %></p>
-                <p class="description"><%= product.description %></p>
-                <p class="category">Category: <%= product.category.name %></p>
+                <p class="description"><%= product.description %></p><br>
+                <p class="category">Category:<strong> <%= product.category.name %></strong></p><br>
                 <% if (product.stock < 5) { %>
                     <p class="stock" style="color: red;">Stock: <%= product.stock %></p>
                 <% } else { %>
@@ -80,7 +80,7 @@
                     <option value="1">1 - Terrible</option>
                 </select>
                 <label for="comment">Comment:</label>
-                <textarea name="comment" id="comment" rows="4"></textarea>
+                <textarea name="comment" id="comment" rows="2"></textarea>
                 <button type="submit">Submit Review</button>
             </form>
         </div>
